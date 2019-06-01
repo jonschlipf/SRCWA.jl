@@ -16,19 +16,19 @@ function prepare_source(kinc,Wref,epsref,Nx,Ny)
     #vertical
     normal=[0,0,1]
     #te polarization E-field is perpendicular with z-axis and propagation direction (so, parallel with surface)
-    kte=cross(normal,kinc)/norm(cross(normal,kinc))
+    kte=cross(normal,kinc)/norm(cross(normal,kinc))/sqrt(sqrt(epsref))#not entirely sure why double square root
     #tm polarization E-field is perpendicular with te and propagation direction (so, not necessarily parallel with surface)
-    ktm=cross(kinc,kte)/norm(cross(kinc,kte))
+    ktm=cross(kinc,kte)/norm(cross(kinc,kte))/sqrt(sqrt(epsref))
     
     esource=zeros(width*2)*1im
     esource[convert(Int64,(width+1)/2)]=kte[1]
     esource[convert(Int64,(width+1)/2)+width]=kte[2]
-    a0te=Wref\esource/sqrt(epsref)
+    a0te=Wref\esource
     
     esource=zeros(width*2)*1im
     esource[convert(Int64,(width+1)/2)]=ktm[1]
     esource[convert(Int64,(width+1)/2)+width]=ktm[2]
-    a0tm=Wref\esource/sqrt(epsref)
+    a0tm=Wref\esource#/sqrt(epsref)
     return a0te,a0tm
 end
 
