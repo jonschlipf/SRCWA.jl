@@ -112,24 +112,24 @@ function absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0,Nreal)
 end
 
 #compute the field expansion in a layer using fourier transform
-function field_expansion(ain,aout,bin,bout,V,W,V0,W0,q,zpoints,Kx,Ky,Kz,realgrid)
+function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,realgrid)
     #create empty vector for result
     efield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     hfield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     #compute the waves transmitted into the layer
     outside=[W0 W0;V0 -V0]
-    inside=[W+0*V W+0*V;V -V]
+    inside=[layer.W+0*layer.V layer.W+0*layer.V;layer.V -layer.V]
     ain,bout=slicehalf(inside\outside*[ain;bout])
     aout,bin=slicehalf(inside\outside*[aout;bin])
 
     for zind=1:zpoints
         #propagation of the waves
-        a=exp(-Matrix(q)*k0*(zind-.5))*ain
+        a=exp(-Matrix(layer.q)*k0*(zind-.5))*ain
         #b=exp(-Matrix(q)*k0*(zind-1))*bout    
-        b=exp(-Matrix(q)*k0*(zpoints+.5-zind))*bin
+        b=exp(-Matrix(layer.q)*k0*(zpoints+.5-zind))*bin
         #convert amplitude vectors to electric fields
-        ex,ey,ez=a2e(a+b,W,Kx,Ky,Kz)
-        hx,hy,hz=a2e(-a+b,V,Kx,Ky,Kz)
+        ex,ey,ez=a2e(a+b,layer.W,Kx,Ky,Kz)
+        hx,hy,hz=a2e(-a+b,layer.V,Kx,Ky,Kz)
         #convert from reciprocal lattice vectors to real space distribution
         efield[:,:,zind,1]=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
         efield[:,:,zind,2]=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
