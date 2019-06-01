@@ -71,9 +71,9 @@ aRte=S.S11*a0te#reflected wave for incident TE
 Rte=a2p(aRte,refspace,Kx,Ky,kin[3])#reflected power for incident TE
 aTte=S.S21*a0te#transmitted wave for incident TE
 Tte=a2p(aTte,traspace,Kx,Ky,kin[3])#transmitted power for incident TE
-aRtm=S.S11*a0te#reflected wave for incident TM
+aRtm=S.S11*a0tm#reflected wave for incident TM
 Rtm=a2p(aRtm,refspace,Kx,Ky,kin[3])#reflected power for incident TM
-aTtm=S.S21*a0te#transmitted wave for incident TM
+aTtm=S.S21*a0tm#transmitted wave for incident TM
 Ttm=a2p(aTtm,traspace,Kx,Ky,kin[3])#transmitted power for incident TM
 ```
 With the scattering matrix constructed, it is easy to compute transmitted and reflected wave amplitudes and power for TE and TM incident polarizations.
