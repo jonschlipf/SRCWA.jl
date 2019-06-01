@@ -90,6 +90,3 @@ Atm=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0tm,Nreal)#Absorption in layer 2 
 ```
 This simple method calculates the absorption of a layer from the difference in the poynting flux through its interfaces. This is done by Fourier transform of the amplitudes of the propagating waves above and below the layers into real space, calculation of the z-component of the Poynting vector point by point and integrating over the plane. 
 
-### Spectroscopic calculations
-
-Due to the dependence of the reciprocal space grid on the frequencies, there is no synergy possible in computing the propagation for multiple frequencies. In any case, they must be computed seperately, for example using a loop.
