@@ -3,8 +3,8 @@ using SRCWA,Test
 @testset "reflection" begin
 
     
-    n1=3
-    n2=1
+    n1=rand()*10
+    n2=rand()*10
 nx,ny,dnx,dny=grid_n(0,0)
 lambda=1000
 theta=1E-30
