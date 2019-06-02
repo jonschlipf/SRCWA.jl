@@ -31,8 +31,8 @@ epsilon_tra=1#transmission halfspace relative permittivity
 refspace=halfspace(Kx,Ky,epsilon_ref)#reflection halfspace effective impedance and modes
 traspace=halfspace(Kx,Ky,epsilon_tra)#transmission halfspace effective impedance and modes
 V0,W0,Kz0=modes_freespace(Kx,Ky)#free space effective impedance and modes for normalization
-Sref=matrix_ref(upper,V0,W0)#scattering matrix of the reflection halfspace
-Stra=matrix_tra(lower,V0,W0)#scattering matrix of the transmission halfspace
+Sref=matrix_ref(refspace,V0,W0)#scattering matrix of the reflection halfspace
+Stra=matrix_tra(traspace,V0,W0)#scattering matrix of the transmission halfspace
 ```
 Any SRCWA computation will require the scattering matrices of the halfspaces above (reflection) and below (transmission) the device of interest. They are modeled with zero thickness, corresponding to the measurement of the plane wave directly at the device, without additional propagation losses or phase shift. The computation is done in two steps. Firstly the effective impedance of the halfspaces is calculated, then it is normalized with that of free space. A minimal simulation model, which basically just yields the same as Fresnel's equation, is comprised of a transmission and reflection layer.
 
