@@ -14,7 +14,7 @@ SRCWA solves Maxwell equtions in reciprocal space. All electric and magnetic fie
 
 ### Scaling the grid to the desired frequency and periodicity
 ```julia
-theta=30#incident angle in degrees between propagation direction and surface normal
+theta=1E-5#incident angle in degrees between propagation direction and surface normal
 phi=0#azimuth angle in degrees
 lambda=1000#wavelength
 ax=ay=1000#uni cell size in x and y
