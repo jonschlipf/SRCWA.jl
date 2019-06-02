@@ -26,8 +26,8 @@ The returned values are the free-space wavevector aka frequency $k_0$ and diagon
 
 ### Reflection and Transmission halfspace
 ```julia
-#epsilon_ref=4#reflection halfspace relative permittivity
-#epsilon_tra=1#transmission halfspace relative permittivity
+epsilon_ref=4#reflection halfspace relative permittivity
+epsilon_tra=1#transmission halfspace relative permittivity
 refspace=halfspace(Kx,Ky,epsilon_ref)#reflection halfspace effective impedance and modes
 traspace=halfspace(Kx,Ky,epsilon_tra)#transmission halfspace effective impedance and modes
 V0,W0,Kz0=modes_freespace(Kx,Ky)#free space effective impedance and modes for normalization
