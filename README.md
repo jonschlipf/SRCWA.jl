@@ -18,7 +18,8 @@ theta=1E-5#incident angle in degrees between propagation direction and surface n
 phi=0#azimuth angle in degrees
 lambda=1000#wavelength
 ax=ay=1000#uni cell size in x and y
-k0,Kx,Ky,kin=grid_k(nx,ny,theta,phi,lambda,ax,ay)
+epsilon_ref=1#reflection halfspace (space above the device) relative permittivity
+k0,Kx,Ky,kin=grid_k(nx,ny,theta,phi,lambda,ax,ay,epsilon_ref)
 ```
 In order to obtain the reciprocal lattice vectors, one has to define the incident wavelength and real space unit cell size and scale the grid by these. This RCWA implementation works for arbitrary plane wave incidence conditions. However, $\theta$ should not be set to zero in order to avoid numerical singularities. One can find a sufficiently small angle where other numerical errors overshadow the problem of imperfectly normal incidence. The choice of the length units for wavelength and cell size is arbitrary, but must be consistent.
 
@@ -26,7 +27,7 @@ The returned values are the free-space wavevector aka frequency $k_0$ and diagon
 
 ### Reflection and Transmission halfspace
 ```julia
-epsilon_ref=1#reflection halfspace relative permittivity
+
 epsilon_tra=4#transmission halfspace relative permittivity
 refspace=halfspace(Kx,Ky,epsilon_ref)#reflection halfspace effective impedance and modes
 traspace=halfspace(Kx,Ky,epsilon_tra)#transmission halfspace effective impedance and modes
@@ -67,7 +68,7 @@ The scattering matrix of the full device can then be obtained from the individua
 ### Reflection and transmission
 
 ```julia
-a0te,a0tm=prepare_source(kin,refspace.W,1,Nx,Ny)#calculate the amplitudes of the impinging plane wave for te or tm polarization
+a0te,a0tm=prepare_source(kin,refspace.W,Nx,Ny)#calculate the amplitudes of the impinging plane wave for te or tm polarization
 aRte=S.S11*a0te#reflected wave for incident TE
 Rte=a2p(aRte,refspace,Kx,Ky,kin[3])#reflected power for incident TE
 aTte=S.S21*a0te#transmitted wave for incident TE

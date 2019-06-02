@@ -10,15 +10,15 @@ function slicehalf(e)
 end
 
 #create normalized source vector depending on propagation modes and grid size
-function prepare_source(kinc,Wref,epsref,Nx,Ny)
+function prepare_source(kinc,Wref,Nx,Ny)
     #the total number of scattering states
     width=(Nx*2+1)*(Ny*2+1)
     #vertical
     normal=[0,0,1]
     #te polarization E-field is perpendicular with z-axis and propagation direction (so, parallel with surface)
-    kte=cross(normal,kinc)/norm(cross(normal,kinc))/sqrt(sqrt(epsref))#not entirely sure why double square root
+    kte=cross(normal,kinc)/norm(cross(normal,kinc))
     #tm polarization E-field is perpendicular with te and propagation direction (so, not necessarily parallel with surface)
-    ktm=cross(kinc,kte)/norm(cross(kinc,kte))/sqrt(sqrt(epsref))
+    ktm=cross(kinc,kte)/norm(cross(kinc,kte))
     
     esource=zeros(width*2)*1im
     esource[convert(Int64,(width+1)/2)]=kte[1]
