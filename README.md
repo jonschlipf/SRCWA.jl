@@ -7,7 +7,7 @@ This solves Maxwell's equations for periodicallypatterned multilayers of optical
 ### Defining a reciprocal space grid
 ```julia
 using SRCWA
-Nx=Ny=1#maximum order of the reciprocal space vector in x and y
+Nx=Ny=3#maximum order of the reciprocal space vector in x and y
 nx,ny,dnx,dny=grid_n(Nx,Ny)#create grids in reciprocal space
 ```
 SRCWA solves Maxwell equtions in reciprocal space. All electric and magnetic fields are dealt with in terms of frequency $k_0$, reciprocal space x and y wavevector $k_x$ and $k_y$, and real space z coordinate $z$. Nx and Ny define the highes index of the reciprocal lattice vector, so Nx=0 gives only zeroth order and a one-element vector while Nx=1 gives the three-element vector (-1,0,1). Higher orders give higher accuracy in the result at the cost of higher computation time. When dealing with structures that are homeogenous in one or both lateral directions, the resulting order can be left at zero. 
@@ -26,8 +26,8 @@ The returned values are the free-space wavevector aka frequency $k_0$ and diagon
 
 ### Reflection and Transmission halfspace
 ```julia
-epsilon_ref=4#reflection halfspace relative permittivity
-epsilon_tra=1#transmission halfspace relative permittivity
+epsilon_ref=1#reflection halfspace relative permittivity
+epsilon_tra=4#transmission halfspace relative permittivity
 refspace=halfspace(Kx,Ky,epsilon_ref)#reflection halfspace effective impedance and modes
 traspace=halfspace(Kx,Ky,epsilon_tra)#transmission halfspace effective impedance and modes
 V0,W0,Kz0=modes_freespace(Kx,Ky)#free space effective impedance and modes for normalization
