@@ -50,6 +50,7 @@ F=circft(fill_x,dnx,dny)# Fourier transform of a circular inclusion in real spac
 F=ellipft(fill_x,fill_y,dnx,dny)# Fourier transform of an elliptic inclusion in real space into reciprocal space
 F=rectft(fill_x,fill_y,dnx,dny)# Fourier transform of a rectangular inclusion in real space into reciprocal space
 
+using LinearAlgebra
 eps2=eps2a*F+eps2b*(I-F)#the permittivity distribution of layer 2 in reciprocal space
 t2=200#thickness of layer 2
 l2=layer_patterned(Kx,Ky,k0,t2,eps2)#compute modes of a patterned layer
