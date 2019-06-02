@@ -1,6 +1,6 @@
 module ft2d
 using SpecialFunctions
-export recft,circft,ellipft,recip2real,recipvec2real,real2recip
+export rectft,circft,ellipft,recip2real,recipvec2real,real2recip
 
 function rectft(frax,fray,dnx,dny)
     #rectangle transforms to sinc
