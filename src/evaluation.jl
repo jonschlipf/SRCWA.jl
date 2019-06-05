@@ -91,6 +91,37 @@ function absorption(Sabove,Sint,Sbelow,a0,W0,Kx,Ky,Kz0,kz0)
     return pin-pout
 end
 
+#compute the absorption in one layer within the stack
+function absorption2(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0,Nreal)
+    #compute amplitudes before and after layer
+    ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
+    #We need a real space meshgrid for the spatial Fourier transform
+    realgrid=grid_xy_square(Nreal)
+    
+    #poynting vector z component before layer    
+    ex,ey=a2e2(ain+bout,W0)
+    hx,hy=a2e2(-ain+bout,V0)
+    
+    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
+    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
+    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
+    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
+    
+    poynting=ex.*conj.(hy)-ey.*conj.(hx)
+    #and after layer
+    ex,ey=a2e2(aout+bin,W0)
+    hx,hy=a2e2(-aout+bin,V0)
+    
+    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
+    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
+    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
+    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
+    
+    poynting2=ex.*conj.(hy)-ey.*conj.(hx)
+    #integrate, take imaginary part of difference
+    return imag.(sum(poynting-poynting2)/Nreal/Nreal)
+end
+
 #compute the field expansion in a layer using fourier transform
 function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,realgrid)
     #create empty vector for result
