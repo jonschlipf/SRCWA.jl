@@ -19,7 +19,7 @@ phi=0#azimuth angle in degrees
 lambda=1000#wavelength
 ax=ay=1000#uni cell size in x and y
 epsilon_ref=1#reflection halfspace (space above the device) relative permittivity
-k0,Kx,Ky,kin=grid_k(nx,ny,theta,phi,lambda,ax,ay,epsilon_ref)
+k0,Kx,Ky,kin=grid_k(dnx,dny,theta,phi,lambda,ax,ay,epsilon_ref)
 ```
 In order to obtain the reciprocal lattice vectors, one has to define the incident wavelength and real space unit cell size and scale the grid by these. This RCWA implementation works for arbitrary plane wave incidence conditions. However, $\theta$ should not be set to zero in order to avoid numerical singularities. One can find a sufficiently small angle where other numerical errors overshadow the problem of imperfectly normal incidence. The choice of the length units for wavelength and cell size is arbitrary, but must be consistent.
 
