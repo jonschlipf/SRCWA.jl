@@ -25,7 +25,7 @@ function real2recip(dnx,dny,f,x,y)
     F=zeros(size(dnx))*1im
     for i=1:size(dnx,1)
         for j=1:size(dnx,2)
-            F[i,j]=size(x,1)*-1*size(x,2)^-1*sum(f.*exp.(-1im*dnx[i,j]*x*2*pi-1im*dny[i,j]*y*2*pi))
+            F[i,j]=size(x,1)^-1*size(x,2)^-1*sum(f.*exp.(-1im*dnx[i,j]*x*2*pi-1im*dny[i,j]*y*2*pi))
         end
     end
     return F
