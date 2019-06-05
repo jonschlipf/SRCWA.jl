@@ -86,9 +86,15 @@ With the scattering matrix constructed, it is easy to compute transmitted and re
 Sabove=concatenate([Sref,S1])#scatter matrix of the layers above the layer of interest
 Sint=S2#layer of interest
 Sbelow=Stra#scatter matrix of the layers below the layer of interest
-Nreal=50#size of real space grid
-Ate=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0te,Nreal)#Absorption in layer 2 for TE incidence
-Atm=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0tm,Nreal)#Absorption in layer 2 for TM incidence
+Ate=absorption(Sabove,Sint,Sbelow,a0te,W0,Kx,Ky,Kz0,kin[3])#Absorption in layer 2 for TE incidence
+Atm=absorption(Sabove,Sint,Sbelow,a0tm,W0,Kx,Ky,Kz0,kin[3])#Absorption in layer 2 for TM incidence
 ```
-This simple method calculates the absorption of a layer from the difference in the poynting flux through its interfaces. This is done by Fourier transform of the amplitudes of the propagating waves above and below the layers into real space, calculation of the z-component of the Poynting vector point by point and integrating over the plane. 
+This simple method calculates the absorption of a layer from the difference in the power of the electromagnetic wave entering and leaving the layer.
 
+## References
+
+1. D. M. Whittaker and I. S. Culshaw, Scattering-matrix treatment of patterned multilayer pho-tonic structures, Phys. Rev. B60(1999), 2610–2618.1
+
+2. Marco Liscidini, Dario Gerace, Lucio Claudio Andreani, and J. E. Sipe,Scattering-matrixanalysis of periodically patterned multilayers with asymmetric unit cells and birefringent media,Phys. Rev. B77(2008), 035324.1
+
+3. Raymond Rumpf,Improved formulation of scattering matrices for semi-analytical methods thatis consistent with convention, Progress In Electromagnetics Research B35(2011), 241–261.1
