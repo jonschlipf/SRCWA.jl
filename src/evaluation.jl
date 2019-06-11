@@ -36,7 +36,7 @@ end
 function a2e2(a,W)
     e=W*a
     ex,ey=slicehalf(e)
-    return ex,ey,ez
+    return ex,ey
 end
 
 #convert amplitude vector to electric field
@@ -60,6 +60,8 @@ function a2p(a,W,Kx,Ky,Kz,kz0)
     ex,ey,ez=a2e(a,W,Kx,Ky,Kz)
     return e2p(ex,ey,ez,Kz,kz0)
 end
+
+
 
 #convert amplitude vector to total power
 function a2p(a,h::Halfspace,Kx,Ky,kz0)
@@ -141,5 +143,37 @@ function kzpatt2(Kx,Ky,epsilon)
     q=Diagonal(sqrt.(Complex.(ev.values)))
     
     return q[1:size(epsilon,1),1:size(epsilon,2)]/1im
+end
+
+#compute the absorption in one layer within the stack
+function absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0)
+    Nreal=51
+    #compute amplitudes before and after layer
+    ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
+    #We need a real space meshgrid for the spatial Fourier transform
+    realgrid=grid_xy_square(Nreal)
+    
+    #poynting vector z component before layer    
+    ex,ey=a2e2(ain+bout,W0)
+    hx,hy=a2e2(-ain+bout,V0)
+    
+    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
+    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
+    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
+    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
+    
+    poynting=ex.*conj.(hy)-ey.*conj.(hx)
+    #and after layer
+    ex,ey=a2e2(aout+bin,W0)
+    hx,hy=a2e2(-aout+bin,V0)
+    
+    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
+    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
+    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
+    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
+    
+    poynting2=ex.*conj.(hy)-ey.*conj.(hx)
+    #integrate, take imaginary part of difference
+    return imag.(sum(poynting-poynting2)/Nreal/Nreal)
 end
 end
