@@ -118,6 +118,7 @@ function modes_plain(Kx,Ky,k0,thi,epsilon)
     Kz=sqrt.(Complex.(epsilon*I-Kx*Kx-Ky*Ky))
     Q=[Kx*Ky epsilon*I-Kx*Kx;Ky*Ky-epsilon*I -Ky*Kx]
     q=[1im*Kz zeros(size(Kz));zeros(size(Kz)) 1im*Kz]
+    q[real.(q).>0].*=-1
     #W is identity
     W=I
     V=Q/Diagonal(q)
