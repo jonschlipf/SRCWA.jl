@@ -74,10 +74,12 @@ function modes_patterned(Kx,Ky,k0,thi,epsilon)
     #eigenmodes
     ev=eigen(Matrix(P*Q))
     q=Diagonal(sqrt.(Complex.(ev.values)))
+    q[real.(q).>0].*=-1
     #W is transform between amplitude vector and E-Field
     W=ev.vectors
     #V is transform between amplitude vector and H-Field
     V=Q*W/Diagonal(q)
+    
     #X the factor applied to the amplitudes when propagatin through the layer
     X=exp(q*k0*thi)
     return V,W,X,q
@@ -116,6 +118,7 @@ function modes_plain(Kx,Ky,k0,thi,epsilon)
     Kz=sqrt.(Complex.(epsilon*I-Kx*Kx-Ky*Ky))
     Q=[Kx*Ky epsilon*I-Kx*Kx;Ky*Ky-epsilon*I -Ky*Kx]
     q=[1im*Kz zeros(size(Kz));zeros(size(Kz)) 1im*Kz]
+    q[real.(q).>0].*=-1
     #W is identity
     W=I
     V=Q/Diagonal(q)
