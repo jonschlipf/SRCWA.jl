@@ -109,9 +109,9 @@ function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,k0,nx,ny
 
     for zind=1:zpoints
         #propagation of the waves
-        a=exp(Matrix(layer.q)*k0*(zind-.5))*ain
+        a=exp(Matrix(layer.q)*k0*layer.thi/zpoints*(zind-.5))*ain
         #b=exp(-Matrix(q)*k0*(zind-1))*bout    
-        b=exp(Matrix(layer.q)*k0*(zpoints+.5-zind))*bin
+        b=exp(Matrix(layer.q)*k0*layer.thi/zpoints*(zpoints+.5-zind))*bin
         #convert amplitude vectors to electric fields
         ex,ey,ez=a2e(a+b,layer.W,Kx,Ky,Kz)
         hx,hy,hz=a2e(-a+b,layer.V,Kx,Ky,Kz)
