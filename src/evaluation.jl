@@ -83,6 +83,7 @@ function stackamp(Sup,S,Slo,a0)
 end
 
 #compute the absorption in one layer within the stack
+#not working properly, better use the alternative method
 function absorption(Sabove,Sint,Sbelow,a0,W0,Kx,Ky,Kz0,kz0)
     #compute amplitudes before and after layer
     ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
@@ -145,9 +146,8 @@ function kzpatt2(Kx,Ky,epsilon)
 end
 
 #compute the absorption in one layer within the stack
-#legacy, most probably overkill
 function absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0)
-    Nreal=51
+    Nreal=51#well, this should be parametric
     #compute amplitudes before and after layer
     ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
     #We need a real space meshgrid for the spatial Fourier transform

@@ -86,8 +86,8 @@ With the scattering matrix constructed, it is easy to compute transmitted and re
 Sabove=concatenate([Sref,S1])#scatter matrix of the layers above the layer of interest
 Sint=S2#layer of interest
 Sbelow=Stra#scatter matrix of the layers below the layer of interest
-Ate=absorption(Sabove,Sint,Sbelow,a0te,W0,Kx,Ky,Kz0,kin[3])#Absorption in layer 2 for TE incidence
-Atm=absorption(Sabove,Sint,Sbelow,a0tm,W0,Kx,Ky,Kz0,kin[3])#Absorption in layer 2 for TM incidence
+Ate=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0te)#Absorption in layer 2 for TE incidence
+Atm=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0tm)#Absorption in layer 2 for TM incidence
 ```
 This simple method calculates the absorption of a layer from the difference in the power of the electromagnetic wave entering and leaving the layer.
 

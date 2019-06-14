@@ -141,7 +141,7 @@ function layer_plain(Kx,Ky,k0,thi,epsilon)
     return Layer(thi,V,V*0+W,X,q)
 end
 """
-modes_freespace(Kx,Ky)
+modes_halfspace(Kx,Ky,epsilon)
 Computes the eigenmodes of an infinitely thin halfspace
 Kx: x-axis component of the propagation vector
 Ky: y-axis component of the propagation vector
@@ -160,7 +160,7 @@ function modes_halfspace(Kx,Ky,epsilon)
     return Matrix(V),W,Kz
 end
 """
-modes_freespace(Kx,Ky)
+halfspace(Kx,Ky,epsilon)
 Computes the eigenmodes of an infinitely thin halfspace in a Halfspace object
 Kx: x-axis component of the propagation vector
 Ky: y-axis component of the propagation vector
