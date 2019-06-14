@@ -106,8 +106,8 @@ The actual electric and magnetic fields inside the layers can be computed from t
 
 ## References
 
-1. D. M. Whittaker and I. S. Culshaw, Scattering-matrix treatment of patterned multilayer pho-tonic structures, Phys. Rev. B60(1999), 2610–2618.1
+1. D. M. Whittaker and I. S. Culshaw, Scattering-matrix treatment of patterned multilayer photonic structures, Phys. Rev. B60(1999), 2610–2618.1
 
-2. Marco Liscidini, Dario Gerace, Lucio Claudio Andreani, and J. E. Sipe, Scattering-matrixanalysis of periodically patterned multilayers with asymmetric unit cells and birefringent media,Phys. Rev. B77(2008), 035324.1
+2. Marco Liscidini, Dario Gerace, Lucio Claudio Andreani, and J. E. Sipe, Scattering-matrix analysis of periodically patterned multilayers with asymmetric unit cells and birefringent media,Phys. Rev. B77(2008), 035324.1
 
 3. Raymond Rumpf, Improved formulation of scattering matrices for semi-analytical methods thatis consistent with convention, Progress In Electromagnetics Research B35(2011), 241–261.1
