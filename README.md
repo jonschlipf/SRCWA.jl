@@ -91,10 +91,22 @@ Atm=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0tm)#Absorption in layer 2 for TM
 ```
 This simple method calculates the absorption of a layer from the difference in the power of the electromagnetic wave entering and leaving the layer.
 
+### Electric and magnetic fields
+
+```julia
+realgrid=grid_xy_square(51)#create a grid in real space for the data
+Sabove=concatenate([Sref,S1])#scatter matrix of the layers above the layer of interest
+Sint=S2#layer of interest
+Sbelow=Stra#scatter matrix of the layers below the layer of interest
+ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0tm)#the amplitude vectors going into and out of the layer for tm incidence
+e1h=field_expansion(ain,aout,bin,bout,l2,V0,W0,100,Kx,Ky,Kz0,k0,nx,ny,realgrid)#calculate the fields in real space
+```
+The actual electric and magnetic fields inside the layers can be computed from the amplitudes using the eigenmodes of the layers. For this, the amplitudes of the plane wave components are transformed into the eigenstates of the layer, in order to compute the amplitude at each z-component. This is then converted to the components of the electric and magnetic field and transformed to real space with a given grid. 
+
 ## References
 
 1. D. M. Whittaker and I. S. Culshaw, Scattering-matrix treatment of patterned multilayer pho-tonic structures, Phys. Rev. B60(1999), 2610–2618.1
 
-2. Marco Liscidini, Dario Gerace, Lucio Claudio Andreani, and J. E. Sipe,Scattering-matrixanalysis of periodically patterned multilayers with asymmetric unit cells and birefringent media,Phys. Rev. B77(2008), 035324.1
+2. Marco Liscidini, Dario Gerace, Lucio Claudio Andreani, and J. E. Sipe, Scattering-matrixanalysis of periodically patterned multilayers with asymmetric unit cells and birefringent media,Phys. Rev. B77(2008), 035324.1
 
-3. Raymond Rumpf,Improved formulation of scattering matrices for semi-analytical methods thatis consistent with convention, Progress In Electromagnetics Research B35(2011), 241–261.1
+3. Raymond Rumpf, Improved formulation of scattering matrices for semi-analytical methods thatis consistent with convention, Progress In Electromagnetics Research B35(2011), 241–261.1
