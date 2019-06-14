@@ -1,6 +1,6 @@
 # SRCWA.jl
 Scatter-matrix Rigorously Coupled Wave Analysis implemented in Julia
-This solves Maxwell's equations for periodicallypatterned multilayers of optically isotropic materials, currently supporting the computation of reflection, transmission and layerwise absorption for arbitrary plane wave incidence. 
+This solves Maxwell's equations for periodically patterned multilayers of optically isotropic materials, currently supporting the computation of reflection, transmission and layerwise absorption for arbitrary plane wave incidence. 
 
 ## Usage
 
