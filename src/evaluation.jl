@@ -93,39 +93,10 @@ function absorption(Sabove,Sint,Sbelow,a0,W0,Kx,Ky,Kz0,kz0)
     return pin-pout
 end
 
-#compute the absorption in one layer within the stack
-function absorption2(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0,Nreal)
-    #compute amplitudes before and after layer
-    ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
-    #We need a real space meshgrid for the spatial Fourier transform
-    realgrid=grid_xy_square(Nreal)
-    
-    #poynting vector z component before layer    
-    ex,ey=a2e2(ain+bout,W0)
-    hx,hy=a2e2(-ain+bout,V0)
-    
-    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
-    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
-    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
-    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
-    
-    poynting=ex.*conj.(hy)-ey.*conj.(hx)
-    #and after layer
-    ex,ey=a2e2(aout+bin,W0)
-    hx,hy=a2e2(-aout+bin,V0)
-    
-    ex=recipvec2real(nx,ny,ex,realgrid.x,realgrid.y)
-    ey=recipvec2real(nx,ny,ey,realgrid.x,realgrid.y)
-    hx=recipvec2real(nx,ny,hx,realgrid.x,realgrid.y)
-    hy=recipvec2real(nx,ny,hy,realgrid.x,realgrid.y)
-    
-    poynting2=ex.*conj.(hy)-ey.*conj.(hx)
-    #integrate, take imaginary part of difference
-    return imag.(sum(poynting-poynting2)/Nreal/Nreal)
-end
+
 
 #compute the field expansion in a layer using fourier transform
-function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,realgrid)
+function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,k0,nx,ny,realgrid)
     #create empty vector for result
     efield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     hfield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
@@ -137,9 +108,9 @@ function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,realgrid
 
     for zind=1:zpoints
         #propagation of the waves
-        a=exp(-Matrix(layer.q)*k0*(zind-.5))*ain
+        a=exp(Matrix(layer.q)*k0*(zind-.5))*ain
         #b=exp(-Matrix(q)*k0*(zind-1))*bout    
-        b=exp(-Matrix(layer.q)*k0*(zpoints+.5-zind))*bin
+        b=exp(Matrix(layer.q)*k0*(zpoints+.5-zind))*bin
         #convert amplitude vectors to electric fields
         ex,ey,ez=a2e(a+b,layer.W,Kx,Ky,Kz)
         hx,hy,hz=a2e(-a+b,layer.V,Kx,Ky,Kz)
@@ -155,10 +126,7 @@ end
     return efield,hfield
 end
 
-#structurized version
-function field_expansion(ain,aout,bin,bout,l::Layer,V0,W0,zpoints,Kx,Ky,Kz,realgrid) 
-    return field_expansion(ain,aout,bin,bout,l.V,l.W,V0,W0,l.q,zpoints,Kx,Ky,Kz,realgrid)
-end
+
 
 #experimental_unverified: Kz for structured layers
 function Kzpatt(Kx,Ky,epsilon)
@@ -177,6 +145,7 @@ function kzpatt2(Kx,Ky,epsilon)
 end
 
 #compute the absorption in one layer within the stack
+#legacy, most probably overkill
 function absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0)
     Nreal=51
     #compute amplitudes before and after layer
