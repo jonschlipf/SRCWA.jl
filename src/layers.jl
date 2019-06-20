@@ -13,10 +13,10 @@ export halfspace,layer_plain,layer_patterned, modes_freespace,Layer,Halfspace
 """
 struct Layer
     thi::Float64
-    V::Array{Complex{Float64},2}
+    V::AbstractArray{Complex{Float64},2}
     W::AbstractArray{Complex{Float64},2}
-    X::Array{Complex{Float64},2}
-    q::Array{Complex{Float64},2}
+    X::AbstractArray{Complex{Float64},2}
+    q::AbstractArray{Complex{Float64},2}
 end
 """
 Halfspace(V,W,Kz)
@@ -26,9 +26,9 @@ W: coordinate transform between eigenmode amplitude and electric field
 Kz: z-axis component of the propagation vector
 """
 struct Halfspace
-    V::Array{Complex{Float64},2}
-    W::Array{Complex{Float64},2}
-    Kz::Array{Complex{Float64},2}
+    V::AbstractArray{Complex{Float64},2}
+    W::AbstractArray{Complex{Float64},2}
+    Kz::AbstractArray{Complex{Float64},2}
 end
 """
 modes_freespace(Kx,Ky)
@@ -49,9 +49,9 @@ function modes_freespace(Kx,Ky)
     q0=1im*Kz0
     q0=[q0 q0*0;0*q0 q0]
     #Free space, so W is identity
-    W0=I+0*Q0
+    #W0=I+0*Q0
     V0=Q0/Diagonal(q0)
-    return Matrix(V0),Matrix(W0),Kz0
+    return V0,Kz0
 end
 """
 modes_patterned(Kx,Ky,k0,thi,epsilon)
@@ -123,7 +123,7 @@ function modes_plain(Kx,Ky,k0,thi,epsilon)
     W=I
     V=Q/Diagonal(q)
     X=exp(Matrix(q*k0*thi))
-    return Matrix(V),W,X,q
+    return V,W,X,q
 end
 """
 layer_plain(Kx,Kyk0,thi,epsilon)
@@ -157,7 +157,7 @@ function modes_halfspace(Kx,Ky,epsilon)
     q0=[1im*Kz zeros(size(Kz));zeros(size(Kz)) 1im*Kz]
     W=I
     V=Q/Diagonal(q0)
-    return Matrix(V),W,Kz
+    return V,W+0*V,Kz
 end
 """
 halfspace(Kx,Ky,epsilon)
@@ -170,7 +170,7 @@ halfspace object
 """
 function halfspace(Kx,Ky,epsilon)
     V,W,Kz=modes_halfspace(Kx,Ky,epsilon)
-    return Halfspace(V,V*0+W,Kz)
+    return Halfspace(V,W,Kz)
 end
 
 end

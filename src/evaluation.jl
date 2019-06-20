@@ -146,13 +146,13 @@ function kzpatt2(Kx,Ky,epsilon)
 end
 
 #compute the absorption in one layer within the stack
-function absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0)
-    Nreal=51#well, this should be parametric
+function absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0,Nreal)
+    
     #compute amplitudes before and after layer
     ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
     #We need a real space meshgrid for the spatial Fourier transform
     realgrid=grid_xy_square(Nreal)
-    
+    W0=0*V0+I
     #poynting vector z component before layer    
     ex,ey=a2e2(ain+bout,W0)
     hx,hy=a2e2(-ain+bout,V0)

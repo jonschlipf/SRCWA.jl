@@ -9,23 +9,23 @@ struct ScatterMatrix
     S22::Array{Complex{Float64},2}
 end
 
-function matrix_layer(V,W,X,V0,W0)
-    A=(W\W0+V\V0)#*.5
-    B=(W\W0-V\V0)#*.5
+function matrix_layer(V,W,X,V0)
+    A=(Matrix(W)\I+(Matrix(V)\I)*V0)#*.5
+    B=(Matrix(W)\I-(Matrix(V)\I)*V0)#*.5
     Ai=I/A
     S11=S22=(A-X*B*Ai*X*B)\(X*B*Ai*X*A-B)
     S12=S21=(A-X*B*Ai*X*B)\X*(A-B*Ai*B)
     return ScatterMatrix(S11,S12,S21,S22)
 end
 
-function matrix_layer(l::Layer,V0,W0)
-    return matrix_layer(l.V,l.W,l.X,V0,W0)
+function matrix_layer(l::Layer,V0)
+    return matrix_layer(l.V,l.W,l.X,V0)
 end
     
 
-function matrix_ref(V,W,V0,W0)
-    A=W0\W+V0\V
-    B=W0\W-V0\V
+function matrix_ref(V,W,V0)
+    A=W+V0\V
+    B=W-V0\V
     Ai=I/A
     S11=-Ai*B
     S12=2*Ai
@@ -34,13 +34,13 @@ function matrix_ref(V,W,V0,W0)
     return ScatterMatrix(S11,S12,S21,S22)
 end
 
-function matrix_ref(l::Halfspace,V0,W0)
-    return matrix_ref(l.V,l.W,V0,W0)
+function matrix_ref(l::Halfspace,V0)
+    return matrix_ref(l.V,l.W,V0)
 end
 
-function matrix_tra(V,W,V0,W0)
-    A=W0\W+V0\V
-    B=W0\W-V0\V
+function matrix_tra(V,W,V0)
+    A=W+V0\V
+    B=W-V0\V
     Ai=I/A
     S11=B*Ai
     S12=.5*(A-B*Ai*B)
@@ -49,8 +49,8 @@ function matrix_tra(V,W,V0,W0)
     return ScatterMatrix(S11,S12,S21,S22)
 end
 
-function matrix_tra(l::Halfspace,V0,W0)
-    return matrix_tra(l.V,l.W,V0,W0)
+function matrix_tra(l::Halfspace,V0)
+    return matrix_tra(l.V,l.W,V0)
 end
     
 function concatenate(S11a,S12a,S21a,S22a,S11b,S12b,S21b,S22b)

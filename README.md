@@ -32,9 +32,9 @@ The returned values are the free-space wavevector aka frequency $k_0$ and diagon
 epsilon_tra=4#transmission halfspace relative permittivity
 refspace=halfspace(Kx,Ky,epsilon_ref)#reflection halfspace effective impedance and modes
 traspace=halfspace(Kx,Ky,epsilon_tra)#transmission halfspace effective impedance and modes
-V0,W0,Kz0=modes_freespace(Kx,Ky)#free space effective impedance and modes for normalization
-Sref=matrix_ref(refspace,V0,W0)#scattering matrix of the reflection halfspace
-Stra=matrix_tra(traspace,V0,W0)#scattering matrix of the transmission halfspace
+V0,Kz0=modes_freespace(Kx,Ky)#free space effective impedance and modes for normalization
+Sref=matrix_ref(refspace,V0)#scattering matrix of the reflection halfspace
+Stra=matrix_tra(traspace,V0)#scattering matrix of the transmission halfspace
 ```
 Any SRCWA computation will require the scattering matrices of the halfspaces above (reflection) and below (transmission) the device of interest. They are modeled with zero thickness, corresponding to the measurement of the plane wave directly at the device, without additional propagation losses or phase shift. The computation is done in two steps. Firstly the effective impedance of the halfspaces is calculated, then it is normalized with that of free space. A minimal simulation model, which basically just yields the same as Fresnel's equation, is comprised of a transmission and reflection layer.
 
@@ -43,7 +43,7 @@ Any SRCWA computation will require the scattering matrices of the halfspaces abo
 t1=100#thickness, same units as wavelength
 eps1=2#relative permittivity
 l1=layer_plain(Kx,Ky,k0,t1,eps1)#compute modes of a plain layer
-S1=matrix_layer(l1,V0,W0)#compute the scattering matrix of l1
+S1=matrix_layer(l1,V0)#compute the scattering matrix of l1
 
 eps2a=2#permittivity inside the inclusion of layer 2
 eps2b=3+1im#permittivity outside the inclusion of layer 2
@@ -56,7 +56,7 @@ using LinearAlgebra
 eps2=eps2a*F+eps2b*(I-F)#the permittivity distribution of layer 2 in reciprocal space
 t2=200#thickness of layer 2
 l2=layer_patterned(Kx,Ky,k0,t2,eps2)#compute modes of a patterned layer
-S2=matrix_layer(l2,V0,W0)#compute the scattering matrix of l2
+S2=matrix_layer(l2,V0)#compute the scattering matrix of l2
 
 S=concatenate([Sref,S1,S2,Stra])
 ```
@@ -87,8 +87,8 @@ With the scattering matrix constructed, it is easy to compute transmitted and re
 Sabove=concatenate([Sref,S1])#scatter matrix of the layers above the layer of interest
 Sint=S2#layer of interest
 Sbelow=Stra#scatter matrix of the layers below the layer of interest
-Ate=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0te)#Absorption in layer 2 for TE incidence
-Atm=absorption(Sabove,Sint,Sbelow,V0,W0,nx,ny,a0tm)#Absorption in layer 2 for TM incidence
+Ate=absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0te,64)#Absorption in layer 2 for TE incidence, 64 by 64 points real space grid integrated
+Atm=absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0tm,64)#Absorption in layer 2 for TM incidence, 64 by 64 points real space grid integrated
 ```
 This simple method calculates the absorption of a layer from the difference in the power of the electromagnetic wave entering and leaving the layer.
 
