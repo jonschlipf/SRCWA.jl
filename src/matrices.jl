@@ -24,8 +24,8 @@ end
     
 
 function matrix_ref(V,W,V0)
-    A=W+V0\V
-    B=W-V0\V
+    A=W+V0\Matrix(V)
+    B=W-V0\Matrix(V)
     Ai=I/A
     S11=-Ai*B
     S12=2*Ai
@@ -39,8 +39,8 @@ function matrix_ref(l::Halfspace,V0)
 end
 
 function matrix_tra(V,W,V0)
-    A=W+V0\V
-    B=W-V0\V
+    A=W+V0\Matrix(V)
+    B=W-V0\Matrix(V)
     Ai=I/A
     S11=B*Ai
     S12=.5*(A-B*Ai*B)
