@@ -146,6 +146,7 @@ function kzpatt2(Kx,Ky,epsilon)
 end
 
 #compute the absorption in one layer within the stack
+#this is with transformation to real space and subsequent integration, unnecessary overhead, legacy
 function absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0,Nreal)
     
     #compute amplitudes before and after layer
@@ -176,4 +177,25 @@ function absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0,Nreal)
     #integrate, take imaginary part of difference
     return imag.(sum(poynting-poynting2)/Nreal/Nreal)
 end
+
+function absorption(Sabove,Sint,Sbelow,V0,a0)
+    #compute amplitudes before and after layer
+    ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
+    #W is just the identity matrix for unpatterned space
+    W0=0*V0+I
+    
+    #in-plane fields "above" the layer   
+    ex,ey=a2e2(ain+bout,W0)
+    hx,hy=a2e2(-ain+bout,V0)
+    #imaginary part of the z-component of the poynting vector integrated over reciprocal space
+    p1=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))
+    
+    #and "below" layer
+    ex,ey=a2e2(aout+bin,W0)
+    hx,hy=a2e2(-aout+bin,V0)
+    p2=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))
+    
+    return p1-p2
+end
+
 end

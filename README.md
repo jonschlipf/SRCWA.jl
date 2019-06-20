@@ -87,8 +87,8 @@ With the scattering matrix constructed, it is easy to compute transmitted and re
 Sabove=concatenate([Sref,S1])#scatter matrix of the layers above the layer of interest
 Sint=S2#layer of interest
 Sbelow=Stra#scatter matrix of the layers below the layer of interest
-Ate=absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0te,64)#Absorption in layer 2 for TE incidence, 64 by 64 points real space grid integrated
-Atm=absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0tm,64)#Absorption in layer 2 for TM incidence, 64 by 64 points real space grid integrated
+Ate=absorption(Sabove,Sint,Sbelow,V0,a0te)#Absorption in layer 2 for TE incidence, 64 by 64 points real space grid integrated
+Atm=absorption(Sabove,Sint,Sbelow,V0,a0tm)#Absorption in layer 2 for TM incidence, 64 by 64 points real space grid integrated
 ```
 This simple method calculates the absorption of a layer from the difference in the power of the electromagnetic wave entering and leaving the layer.
 
