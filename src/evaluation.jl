@@ -102,8 +102,8 @@ function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,k0,nx,ny
     efield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     hfield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     #compute the waves transmitted into the layer
-    outside=[W0 W0;V0 -V0]
-    inside=[layer.W+0*layer.V layer.W+0*layer.V;layer.V -layer.V]
+    outside=Matrix([W0 W0;V0 -V0])
+    inside=Matrix([layer.W+0*layer.V layer.W+0*layer.V;layer.V -layer.V])
     ain,bout=slicehalf(inside\outside*[ain;bout])
     aout,bin=slicehalf(inside\outside*[aout;bin])
 
@@ -178,7 +178,7 @@ function absorption(Sabove,Sint,Sbelow,V0,nx,ny,a0,Nreal)
     return imag.(sum(poynting-poynting2)/Nreal/Nreal)
 end
 
-function absorption(Sabove,Sint,Sbelow,V0,a0)
+function absorption(Sabove,Sint,Sbelow,V0,a0,kz0)
     #compute amplitudes before and after layer
     ain,aout,bin,bout=stackamp(Sabove,Sint,Sbelow,a0)
     #W is just the identity matrix for unpatterned space
@@ -188,12 +188,12 @@ function absorption(Sabove,Sint,Sbelow,V0,a0)
     ex,ey=a2e2(ain+bout,W0)
     hx,hy=a2e2(-ain+bout,V0)
     #imaginary part of the z-component of the poynting vector integrated over reciprocal space
-    p1=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))
+    p1=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))*kz0
     
     #and "below" layer
     ex,ey=a2e2(aout+bin,W0)
     hx,hy=a2e2(-aout+bin,V0)
-    p2=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))
+    p2=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))*kz0
     
     return p1-p2
 end
