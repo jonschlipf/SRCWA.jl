@@ -188,12 +188,12 @@ function absorption(Sabove,Sint,Sbelow,V0,a0,kz0)
     ex,ey=a2e2(ain+bout,W0)
     hx,hy=a2e2(-ain+bout,V0)
     #imaginary part of the z-component of the poynting vector integrated over reciprocal space
-    p1=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))*kz0
+    p1=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))/kz0
     
     #and "below" layer
     ex,ey=a2e2(aout+bin,W0)
     hx,hy=a2e2(-aout+bin,V0)
-    p2=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))*kz0
+    p2=imag(sum(ex.*conj.(hy)-ey.*conj.(hx)))/kz0
     
     return p1-p2
 end
