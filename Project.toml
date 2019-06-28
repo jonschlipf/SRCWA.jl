@@ -1,7 +1,7 @@
 name = "SRCWA"
 uuid = "ff5ff224-83ac-11e9-2c32-7d811a837d73"
 authors = ["jonschlipf <schlipf.jon@gmx.net>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
