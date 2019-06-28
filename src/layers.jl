@@ -37,7 +37,6 @@ Kx: x-axis component of the propagation vector
 Ky: y-axis component of the propagation vector
 returns
 V0: coordinate transform between free space eigenmode amplitude and magnetic field
-W0: coordinate transform between free space eigenmode amplitude and electric field
 Kz0: z-axis component of the propagation vector in free space
 """
 function modes_freespace(Kx,Ky)
