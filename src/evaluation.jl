@@ -97,7 +97,8 @@ end
 
 
 #compute the field expansion in a layer using fourier transform
-function field_expansion(ain,aout,bin,bout,layer,V0,W0,zpoints,Kx,Ky,Kz,k0,nx,ny,realgrid)
+function field_expansion(ain,aout,bin,bout,layer,V0,zpoints,Kx,Ky,Kz,k0,nx,ny,realgrid)
+    W0*I+0*V0
     #create empty vector for result
     efield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
     hfield=zeros(size(realgrid.x,1),size(realgrid.y,2),zpoints,3)*1im
